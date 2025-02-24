@@ -3,12 +3,12 @@ import { mainnet } from 'viem/chains';
 
 const publicClient = createPublicClient({
   chain: mainnet,
-  transport: http(`https://mainnet.infura.io/v3/41e91e22268d4ef1bae736ac12d48e1f`),
-  //transport: http(),
+  //transport: http(`https://mainnet.infura.io/v3/41e91e22268d4ef1bae736ac12d48e1f`),
+  transport: http(),
 });
-// BAYC 合约地址和 ABI（简化版，仅包含 ownerOf 函数）
-const baycAddress = '0xBC4CA0EdA7647A8aB7C2061c2E118A18a936f13D'; 
-const baycAbi = [
+// nft 合约地址和 ABI（简化版，仅包含 ownerOf 和tokenURI函数）
+const nftcAddress = '0x0483b0dfc6c78062b9e999a82ffb795925381415'; // for W2D5 assignment
+const nftcAbi = [
   {
     name: 'ownerOf',
     type: 'function',
@@ -28,16 +28,16 @@ const baycAbi = [
 async function getNFTOwner(tokenId) {
   try {
     const data = await publicClient.readContract({
-        address: baycAddress,
-        abi: baycAbi,
+        address: nftcAddress,
+        abi: nftcAbi,
         functionName: 'ownerOf',
         args:[tokenId]
       })
      console.log('ownerOf: ', tokenId, data) 
 
      const metaData = await publicClient.readContract({
-      address: baycAddress,
-      abi: baycAbi,
+      address: nftcAddress,
+      abi: nftcAbi,
       functionName: 'tokenURI',
       args:[tokenId]
     })
